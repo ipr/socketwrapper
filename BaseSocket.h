@@ -7,6 +7,8 @@
 #ifndef _BASESOCKET_H_
 #define _BASESOCKET_H_
 
+#include <stdint.h> // ISO-standard types wherever available
+
 #ifdef _WIN32
 #include <Winsock2.h>
 #pragma comment(lib, "Ws2_32.lib")
@@ -32,12 +34,14 @@ protected:
 
 	bool closeSocket()
 	{
-		int res = closesocket(m_s); 
-		if (res == SOCKET_ERROR)
+		if (m_s != INVALID_SOCKET)
 		{
-			return false;
+			if (closesocket(m_s) == SOCKET_ERROR)
+			{
+				return false;
+			}
+			m_s = INVALID_SOCKET;
 		}
-		m_s = INVALID_SOCKET;
 		return true;
 	}
 public:
@@ -46,6 +50,18 @@ public:
 
 	bool sendData(const size_t length, char *data);
 	bool recvData(const size_t bufSpace, char *buf, size_t &received);
+};
+
+///////////// ClientSocket
+
+class ClientSocket : protected BaseSocket
+{
+public:
+	ClientSocket();
+	virtual ~ClientSocket();
+
+	bool connect(const char *peer, uint16_t port);
+	bool close();
 };
 
 #endif //_BASESOCKET_H_

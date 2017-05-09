@@ -105,3 +105,40 @@ bool BaseSocket::recvData(const size_t bufSpace, char *buf, size_t &received)
 	}
 	return true;
 }
+
+///////////////// ClientSocket
+
+ClientSocket::ClientSocket()
+	: BaseSocket()
+{
+}
+
+ClientSocket::~ClientSocket()
+{
+	closeSocket();
+}
+
+bool ClientSocket::connect(const char *peer, uint16_t port)
+{
+	if (createSocket() == false)
+	{
+		return false;
+	}
+
+	sockaddr_in saddr;
+	saddr.sin_family = AF_INET;
+	saddr.sin_port = htons(port);
+	saddr.sin_addr.s_addr = inet_addr(peer);
+
+	int res = ::connect(m_s, &saddr, sizeof(sockaddr_in));
+	if (res != 0)
+	{
+		return false;
+	}
+	return true;
+}
+
+bool ClientSocket::close()
+{
+	return closeSocket();
+}
