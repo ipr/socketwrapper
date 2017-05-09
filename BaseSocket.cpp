@@ -94,7 +94,7 @@ bool BaseSocket::recvData(const size_t bufSpace, char *buf, size_t &received)
 		if (res > 0)
 		{
 			received += res;
-			spaceavailable -= received;
+			spaceavailable -= res;
 			pos += res;
 		}
 
