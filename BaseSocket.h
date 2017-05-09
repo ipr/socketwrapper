@@ -1,3 +1,9 @@
+/////////////////////////////
+// BaseSocket : wrap socket functionality
+//
+// Ilkka Prusi 2017
+// ilkka.prusi@gmail.com
+//
 #ifndef _BASESOCKET_H_
 #define _BASESOCKET_H_
 
@@ -31,11 +37,14 @@ protected:
 		{
 			return false;
 		}
+		m_s = INVALID_SOCKET;
 		return true;
 	}
 public:
 	BaseSocket();
 	virtual ~BaseSocket();
+
+	bool sendData(const size_t length, char *data);
 };
 
 #endif //_BASESOCKET_H_
