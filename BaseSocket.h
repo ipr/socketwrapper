@@ -45,6 +45,7 @@ public:
 	virtual ~BaseSocket();
 
 	bool sendData(const size_t length, char *data);
+	bool recvData(const size_t bufSpace, char *buf, size_t &received);
 };
 
 #endif //_BASESOCKET_H_

@@ -74,3 +74,34 @@ bool BaseSocket::sendData(const size_t length, char *data)
 	return true;
 }
 
+// receive data to buffer
+bool BaseSocket::recvData(const size_t bufSpace, char *buf, size_t &received)
+{
+	size_t spaceavailable = bufSpace;
+	char *pos = buf;
+	int res = 0;
+
+	received = 0; // init
+
+	// TODO: add MSG_PEEK so we don't block when no need
+	//
+	// note that more data might be waiting after each call, catch what we can
+	while (res != SOCKET_ERROR && received < bufSpace)
+	{
+		// note that we might be blocking here if there is no data waiting:
+		// add MSG_PEEK to check so we don't block without need
+		res = recv(m_s, pos, spaceavailable, 0);
+		if (res > 0)
+		{
+			received += res;
+			spaceavailable -= received;
+			pos += res;
+		}
+
+	}
+	if (res < 0)
+	{
+		return false;
+	}
+	return true;
+}
