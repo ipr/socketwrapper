@@ -39,6 +39,7 @@ int main(int argc, char **argv)
 	bool expectmore = true;
 	while (expectmore == true)
 	{
+		// TODO: make async for timeout support etc.
 		if (client.recvData(space, pos, received) == false)
 		{
 			break;
@@ -50,12 +51,21 @@ int main(int argc, char **argv)
 		// scan for CRLF, this is ugly, don't do this..
 		while (received > 0)
 		{
+			// should handle malformed garbage somehow too
 			if (*(pos - received) == '\r' && *(pos - (received-1)) == '\n')
 			{
 				expectmore = false;
+				//data.resize(totalreceived); // cut at rest away for now
 				break;
 			}
 			--received;
+		}
+
+		// TODO: max limit for buffer
+		if (totalreceived == data.size())
+		{
+			// buffer full, grow or abort
+			data.resize(data.size() * 2);
 		}
 	}
 
