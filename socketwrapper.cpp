@@ -9,34 +9,35 @@
 
 int main(int argc, char **argv)
 {
+	if (argc < 2)
+	{
+		return -1;
+	}
 	if (startSocket() == false)
 	{
 		return -1;
 	}
 
 	ClientSocket client;
-	if (argc >= 2)
+	if (client.connect(argv[1], 22) == false)
 	{
-		if (client.connect(argv[1], 22) == false)
-		{
-			return -2;
-		}
-
-		std::string helo("HELO");
-		if (client.sendData(helo.size(), helo.c_str()) == false)
-		{
-			return -3;
-		}
-
-		size_t received = 0;
-		std::vector<char> data;
-		data.reserve(1234);
-		if (client.recvData(data.size(), data.data(), received) == false)
-		{
-			return -4;
-		}
-		client.close();
+		return -2;
 	}
+
+	std::string helo("HELO");
+	if (client.sendData(helo.size(), helo.c_str()) == false)
+	{
+		return -3;
+	}
+
+	size_t received = 0;
+	std::vector<char> data;
+	data.reserve(1234);
+	if (client.recvData(data.size(), data.data(), received) == false)
+	{
+		return -4;
+	}
+	client.close();
 	cleanupSocket();
     return 0;
 }

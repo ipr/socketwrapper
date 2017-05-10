@@ -9,6 +9,7 @@
 // you need to initialize wsa sockets once per app..
 bool startSocket()
 {
+#ifdef _WIN32
 	// TODO: make static or something..
 	// call once globally in application
 	WSADATA wsadata;
@@ -17,15 +18,18 @@ bool startSocket()
 	{
 		return false;
 	}
+#endif
 	return true;
 }
 
 // also, you need to cleanup wsa sockets once per app..
 bool cleanupSocket()
 {
+#ifdef _WIN32
 	// TODO: make static or something,
 	// call once globally in application
 	WSACleanup();
+#endif
 	return true;
 }
 

@@ -12,6 +12,8 @@
 #ifdef _WIN32
 #include <Winsock2.h>
 #pragma comment(lib, "Ws2_32.lib")
+#else
+#include <sys/socket.h>
 #endif
 
 bool startSocket();
