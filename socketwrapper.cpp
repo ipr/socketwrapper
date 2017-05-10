@@ -32,7 +32,7 @@ int main(int argc, char **argv)
 
 	size_t received = 0;
 	std::vector<char> data;
-	data.reserve(1234);
+	data.resize(1234);
 	if (client.recvData(data.size(), data.data(), received) == false)
 	{
 		return -4;
