@@ -40,12 +40,12 @@ BaseSocket::~BaseSocket()
 }
 
 // transmit data from buffer
-bool BaseSocket::sendData(const size_t length, char *data)
+bool BaseSocket::sendData(const size_t length, const char *data)
 {
 	const int retrylimit = 10; // TODO: make configurable
 	int retrycount = 0;
 	size_t sent = 0, to_send = length;
-	char *pos = data;
+	char *pos = (char*)data;
 	int res = 0;
 
 	// the way sending works, check amount of each chunk sent in case it is not sent all at once
@@ -140,7 +140,7 @@ bool ClientSocket::connect(const char *peer, uint16_t port)
 	saddr.sin_port = htons(port);
 	saddr.sin_addr.s_addr = inet_addr(peer);
 
-	int res = ::connect(m_s, &saddr, sizeof(sockaddr_in));
+	int res = ::connect(m_s, (sockaddr*)&saddr, sizeof(sockaddr));
 	if (res != 0)
 	{
 		return false;

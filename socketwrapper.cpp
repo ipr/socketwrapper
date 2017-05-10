@@ -4,15 +4,39 @@
 #include "stdafx.h"
 #include "BaseSocket.h"
 
-int main()
+#include <string>
+#include <vector>
+
+int main(int argc, char **argv)
 {
 	if (startSocket() == false)
 	{
 		return -1;
 	}
 
-	BaseSocket bs; //tmp
+	ClientSocket client;
+	if (argc >= 2)
+	{
+		if (client.connect(argv[1], 22) == false)
+		{
+			return -2;
+		}
 
+		std::string helo("HELO");
+		if (client.sendData(helo.size(), helo.c_str()) == false)
+		{
+			return -3;
+		}
+
+		size_t received = 0;
+		std::vector<char> data;
+		data.reserve(1234);
+		if (client.recvData(data.size(), data.data(), received) == false)
+		{
+			return -4;
+		}
+		client.close();
+	}
 	cleanupSocket();
     return 0;
 }

@@ -44,17 +44,19 @@ protected:
 		}
 		return true;
 	}
+
+protected:
+	BaseSocket(); // only inheritance allowed
 public:
-	BaseSocket();
 	virtual ~BaseSocket();
 
-	bool sendData(const size_t length, char *data);
+	bool sendData(const size_t length, const char *data);
 	bool recvData(const size_t bufSpace, char *buf, size_t &received);
 };
 
 ///////////// ClientSocket
 
-class ClientSocket : protected BaseSocket
+class ClientSocket : public BaseSocket
 {
 public:
 	ClientSocket();
