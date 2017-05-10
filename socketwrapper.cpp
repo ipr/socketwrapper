@@ -30,13 +30,35 @@ int main(int argc, char **argv)
 		return -3;
 	}
 
+	size_t totalreceived = 0;
 	size_t received = 0;
 	std::vector<char> data;
 	data.resize(1234);
-	if (client.recvData(data.size(), data.data(), received) == false)
+	char *pos = data.data();
+	size_t space = data.size();
+	bool expectmore = true;
+	while (expectmore == true)
 	{
-		return -4;
+		if (client.recvData(space, pos, received) == false)
+		{
+			break;
+		}
+		pos += received;
+		space -= received;
+		totalreceived += received;
+
+		// scan for CRLF, this is ugly, don't do this..
+		while (received > 0)
+		{
+			if (*(pos - received) == '\r' && *(pos - (received-1)) == '\n')
+			{
+				expectmore = false;
+				break;
+			}
+			--received;
+		}
 	}
+
 	client.close();
 	cleanupSocket();
     return 0;
