@@ -80,13 +80,15 @@ bool BaseSocket::recvData(const size_t bufSpace, char *buf, size_t &received)
 	size_t spaceavailable = bufSpace;
 	char *pos = buf;
 	int res = 0;
+	bool repeatRead = false;
 
 	received = 0; // init
 
 	// TODO: add MSG_PEEK so we don't block when no need
 	//
-	// note that more data might be waiting after each call, catch what we can
-	while (res != SOCKET_ERROR && received < bufSpace)
+	// note that more data might be waiting after each call, catch what we can:
+	// try read at least once
+	do
 	{
 		// note that we might be blocking here if there is no data waiting:
 		// add MSG_PEEK to check so we don't block without need
@@ -98,7 +100,15 @@ bool BaseSocket::recvData(const size_t bufSpace, char *buf, size_t &received)
 			pos += res;
 		}
 
-	}
+		/*
+		// TODO: test peek-handling
+		// more data waiting -> repeat read
+		if (recv(m_s, pos, spaceavailable, MSG_PEEK) > 0)
+		{
+			repeatRead = true;
+		}
+		*/
+	} while (res != SOCKET_ERROR && received < bufSpace && repeatRead == true);
 	if (res < 0)
 	{
 		return false;
