@@ -8,6 +8,9 @@ class ListenerSocket : public BaseSocket
 public:
 	ListenerSocket();
 	virtual ~ListenerSocket();
+
+	bool listen(uint16_t port);
+	//bool listen(const char *addr, uint16_t port);
 };
 
 #endif // _LISTENERSOCKET_H_
