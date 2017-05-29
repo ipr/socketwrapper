@@ -151,8 +151,3 @@ bool ClientSocket::connect(const char *peer, uint16_t port)
 	}
 	return true;
 }
-
-bool ClientSocket::close()
-{
-	return closeSocket();
-}

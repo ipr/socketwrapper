@@ -49,11 +49,16 @@ protected:
 
 protected:
 	BaseSocket(); // only inheritance allowed
+	BaseSocket(SOCKET &s)
+		: m_s(s)
+	{}
 public:
 	virtual ~BaseSocket();
 
 	bool sendData(const size_t length, const char *data);
 	bool recvData(const size_t bufSpace, char *buf, size_t &received);
+
+	friend class ListenerSocket;
 };
 
 ///////////// ClientSocket
@@ -65,7 +70,10 @@ public:
 	virtual ~ClientSocket();
 
 	bool connect(const char *peer, uint16_t port);
-	bool close();
+	bool close() 
+	{
+		return closeSocket();
+	}
 };
 
 #endif //_BASESOCKET_H_

@@ -11,6 +11,8 @@ public:
 
 	bool listen(uint16_t port);
 	//bool listen(const char *addr, uint16_t port);
+
+	bool accept();
 };
 
 #endif // _LISTENERSOCKET_H_
