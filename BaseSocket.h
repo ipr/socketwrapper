@@ -24,6 +24,9 @@ class BaseSocket
 protected:
 	SOCKET m_s;
 
+	uint16_t m_localPort = 0;
+	uint16_t m_peerPort = 0;
+
 	bool createSocket(int proto = IPPROTO_TCP, int type = SOCK_STREAM, int af = AF_INET)
 	{
 		m_s = socket(af, type, proto);
