@@ -57,7 +57,7 @@ bool ListenerSocket::accept()
 	// TODO: check incoming address (if necessary)
 	//isValidPeer(addr)
 
-	// do something with this
+	// TODO: do something with this
 	BaseSocket client(s);
 
 	return true;

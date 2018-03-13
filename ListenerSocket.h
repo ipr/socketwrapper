@@ -12,6 +12,13 @@ public:
 	bool listen(uint16_t port);
 	//bool listen(const char *addr, uint16_t port);
 
+	// TODO:
+	// could use this..
+	//bool accept(BaseSocket &peer);
+	// or use move:
+	//BaseSocket && accept();
+
+	// placeholder for now
 	bool accept();
 };
 

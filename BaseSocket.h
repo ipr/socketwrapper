@@ -52,6 +52,21 @@ protected:
 	BaseSocket(SOCKET &s)
 		: m_s(s)
 	{}
+
+	/*
+	// TODO: move operator? check
+	BaseSocket(BaseSocket &&other)
+		: m_s(std::move(other.m_s))
+	{}
+	*/
+	/* move assignment operator
+	BaseSocket & operator = (BaseSocket && other)
+	{
+		m_s = std::move(other.m_s);
+		return *this;
+	}
+	*/
+
 public:
 	virtual ~BaseSocket();
 
